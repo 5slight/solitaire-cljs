@@ -1,12 +1,12 @@
 (ns sol-clj.card)
 
-(def color {:hart   :red
-            :dimond :red
-            :spade  :black
-            :club   :black})
+(def color {:heart   :red
+            :diamond :red
+            :spade   :black
+            :club    :black})
 
-(def suite {0 :hart
-            1 :dimond
+(def suite {0 :heart
+            1 :diamond
             2 :club
             3 :spade})
 
