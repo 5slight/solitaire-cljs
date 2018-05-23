@@ -4,7 +4,8 @@
    [org.clojure/clojurescript "1.10.238"]
    [pandeiro/boot-http "0.8.3"]
    [deraen/boot-sass"0.3.1"]
-   [reagent "0.8.0"]]
+   [reagent "0.8.0"]
+   [crisptrutski/boot-cljs-test "0.3.5-SNAPSHOT"] ]
  :source-paths #{"src"}
  :asset-paths #{"assets"})
 
