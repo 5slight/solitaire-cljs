@@ -1,0 +1,83 @@
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@mixin user-select($val) {
+  -webkit-user-select: $val;  /* Chrome all / Safari all */
+  -moz-user-select: $val;     /* Firefox all */
+  -ms-user-select: $val;      /* IE 10+ */
+  user-select: $val;          /* Likely future */
+}
+
+* {
+  padding:0;
+  margin:0;
+}
+
+body {
+  background-color: #888;
+}
+
+.card[draggable] {
+  @include user-select(none);
+}
+
+.card-container, .card-spacer {
+
+  padding: 2%;
+  width: 10%;
+  float:left;
+  position:relative;
+
+  .front {
+    background-color:white;
+  }
+
+  .back {
+    background-color: #f77;
+  }
+
+  .empty {
+    background-color:#CCC;
+  }
+
+  .card {
+    @include aspect-ratio(2.5, 3.5);
+    border: 1px solid black;
+  }
+
+  .card + .card {
+    margin-top: -6.7em;
+  }
+
+  .stack {
+    position:relative;
+  }
+
+  .stack .card {
+    position:absolute;
+    top:0;
+    width: 100%;
+    margin-top: 0 !important;
+  }
+
+  .red {
+    color:red;
+  }
+  .black {
+    color:black;
+  }
+}
