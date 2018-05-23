@@ -44,6 +44,10 @@
         tomove (if (int? c)
                  [c']
                  (subvec srccol (last cloc)))
-        nsrccol (subvec srccol 0 (last cloc))]
-    (swap! state assoc-in srccolloc nsrccol)
+        nsrccol (subvec srccol 0 (last cloc))
+        nsrccol' (if (-> nsrccol first int?)
+                  nsrccol
+                  (conj (vec (butlast nsrccol))
+                        [(first (last nsrccol)) true]))]
+    (swap! state assoc-in srccolloc nsrccol')
     (swap! state update-in location into tomove)))
