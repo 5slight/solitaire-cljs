@@ -8,22 +8,24 @@
 (defn card
   [{:keys [front value on-click card-num location suite child]
     :or {front false suite "" value "" on-click identity}}]
-  [:div.card-wrapper
-   {:draggable front
-    :on-drag-start (partial dnd/drag-start value location)
-    :on-drag-end dnd/drag-end}
-   [:div.card
-    {:class (if front
-              (str (name suite) " val_" (name value)
-                   " front " (-> suite card/color name))
-              "back")
-     :on-click on-click}
-    [:div.content
-     (when front
-       [:div
-        [:h1 (name value)]
-        [:h1 (name suite)]])]]
-   child])
+  (try
+    [:div.card-wrapper
+     {:draggable front
+      :on-drag-start (partial dnd/drag-start value location)
+      :on-drag-end dnd/drag-end}
+     [:div.card
+      {:class (if front
+                (str " front " (-> suite card/color name))
+                "back")
+       :on-click on-click}
+      [:div.content
+       (when front
+         [:div
+          [:h1 (name value)]
+          [:h1 (name suite)]])]]
+     child]
+    (catch js/Error e
+      (.log js/console value))))
 
 (defn- card-container-loop [location cidx cards]
   (when-let [fc (first cards)]
@@ -41,12 +43,7 @@
        :on-drag-enter dcheck :on-drag-over dcheck})
     (if (empty? @cards)
       [space]
-      [card-container-loop location 0 @cards]
-      #_(for [[cidx [cn front]] (map-indexed vector @cards)]
-          (let [[v s] (card/get-card cn)]
-            #^{:key cidx}
-            [card {:front front :value (card/display-card v) :suite s
-                   :location (conj location cidx)}])))]))
+      [card-container-loop location 0 @cards])]))
 
 (defn column [state cards idx]
   [card-container
