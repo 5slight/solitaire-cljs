@@ -36,7 +36,7 @@
 (defn- card-container
   ([{:keys [location state cards] :as args}]
    [:div.card-container
-    (let [dcheck (partial dnd/drop-check location)]
+    (let [dcheck (partial dnd/drop-check state location)]
       {:on-drop (partial dnd/on-drop state location)
        :on-drag-enter dcheck :on-drag-over dcheck})
     (if (empty? @cards)
