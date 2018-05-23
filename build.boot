@@ -5,14 +5,15 @@
    [pandeiro/boot-http "0.8.3"]
    [deraen/boot-sass"0.3.1"]
    [reagent "0.8.0"]
-   [crisptrutski/boot-cljs-test "0.3.5-SNAPSHOT"] ]
+   [crisptrutski/boot-cljs-test "0.3.4"] ]
  :source-paths #{"src"}
  :asset-paths #{"assets"})
 
 (require
  '[adzerk.boot-cljs :refer [cljs]]
  '[pandeiro.boot-http :refer [serve]]
- '[deraen.boot-sass :refer [sass]])
+ '[deraen.boot-sass :refer [sass]]
+ '[crisptrutski.boot-cljs-test :refer [test-cljs]])
 
 (deftask dev []
   (comp
@@ -22,3 +23,10 @@
    (sass)
    (serve :port 8081 :dir "target")
    (target :dir #{"target"})))
+
+(deftask testing []
+  (merge-env! :source-paths #{"src" "test"})
+  (comp
+   (watch)
+   (speak)
+   (test-cljs :js-env :firefox)))
