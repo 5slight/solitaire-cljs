@@ -18,9 +18,10 @@
     (= c 13) "King"))
 
 (defn get-card [c]
-  (let [num (inc (mod c 13))
-        suite-num (.floor js/Math (/ (dec c) 13))]
-    [num (get suite suite-num)]))
+  (when c
+    (let [num (inc (mod c 13))
+          suite-num (.floor js/Math (/ (dec c) 13))]
+      [num (get suite suite-num)])))
 
 (defn home-check [[src-card _] [dest-card _]]
   (let [[snum ssuite] (get-card src-card)
@@ -52,3 +53,38 @@
        :homes home-check
        :columns column-check)
      src-card dest-card)))
+
+(defn move-card [state sloc dloc]
+  (let [c (get-in @state sloc)
+        c' (if (int? c) [c true] c)
+        srccolloc (butlast sloc)
+        srccol (get-in @state srccolloc)
+        tomove (if (int? c)
+                 [c']
+                 (subvec srccol (last sloc)))
+        nsrccol (subvec srccol 0 (last sloc))
+        nsrccol' (if (-> nsrccol first int?)
+                   nsrccol
+                   (if (empty? nsrccol)
+                     nsrccol
+                     (conj (vec (butlast nsrccol))
+                           [(first (last nsrccol)) true])))]
+    (swap! state assoc-in srccolloc nsrccol')
+    (swap! state update-in dloc into tomove)))
+
+(defn find-home [{{:keys [homes]} :table :as state} location]
+  (let [sc (get-in state location)
+        [snum ssuite] (get-card (if (int? sc) sc (first sc)))]
+    (some
+     (fn [[idx h]]
+       (let [dlc (last h)
+             dlcn (first dlc)
+             [dnum dsuite] (get-card dlcn)]
+         (if (or (and (= snum 1) (nil? dlc))
+                 (and (= snum (inc dnum)) (= dsuite ssuite)))
+           idx)))
+     (map-indexed vector homes))))
+
+(defn double-click [state location ev]
+  (when-let [home (find-home @state location)]
+    (move-card state location [:table :homes home])))

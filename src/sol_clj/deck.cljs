@@ -25,6 +25,6 @@
                (let [[v s] (card/get-card c)]
                  #^{:key c}
                  [c/card
-                  {:front true
+                  {:front true :state state
                    :location [:shown (dec (count shown'))]
                    :value (card/display-card v) :suite s}]))])]]))))
