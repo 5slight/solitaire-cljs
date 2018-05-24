@@ -25,7 +25,7 @@
      (when front
        [:div
         [:h1 (name value)]
-        [:h1 (name suite)]])]]
+        [:h1 (-> suite name first s/upper-case)]])]]
    child])
 
 (defn- card-container-loop [state location cidx cards]
