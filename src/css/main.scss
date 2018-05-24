@@ -70,6 +70,10 @@ body {
   .card {
     @include aspect-ratio(2.5, 3.5);
     border: 1px solid black;
+
+    .content {
+      text-align:center;
+    }
   }
 
   .stack {
