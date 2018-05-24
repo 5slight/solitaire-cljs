@@ -1,9 +1,12 @@
 (ns sol-clj.components
   (:require [reagent.core :as r]
+            [clojure.string :as s]
             [sol-clj.card :as card]
             [sol-clj.drag-n-drop :as dnd]))
 
-(defn space [args] [:div.card.empty args])
+(defn space
+  ([] [space {}])
+  ([args] [:div.card.empty args [:div.content ""]]))
 
 (defn card
   [{:keys [front value on-click card-num location suite child state]
