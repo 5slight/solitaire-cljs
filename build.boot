@@ -22,3 +22,11 @@
    (sass)
    (serve :port 8081 :dir "target")
    (target :dir #{"target"})))
+
+(deftask prod []
+  (comp
+   (speak)
+   (cljs :optimizations :advanced)
+   (sass :output-style :compressed :source-map false)
+   (serve :port 8081 :dir "target")
+   (target :dir #{"target"})))
