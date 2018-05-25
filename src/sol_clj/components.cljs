@@ -2,11 +2,17 @@
   (:require [reagent.core :as r]
             [clojure.string :as s]
             [sol-clj.card :as card]
-            [sol-clj.drag-n-drop :as dnd]))
+            [sol-clj.drag-n-drop :as dnd]
+            [sol-clj.modals :as modals]))
 
 (defn space
   ([] [space {}])
   ([args] [:div.card.empty args [:div.content ""]]))
+
+(defn card-double-click [state location ev]
+  (when-let [home (card/find-home @state location)]
+    (card/move-card state location [:table :homes home])
+    (modals/game-complete-open state)))
 
 (defn card
   [{:keys [front value on-click card-num location suite child state]
@@ -20,7 +26,7 @@
               (str " front " (-> suite card/color name))
               "back")
      :on-click on-click
-     :on-double-click #(card/double-click state location %)}
+     :on-double-click #(card-double-click state location %)}
     [:div.content
      (when front
        [:div

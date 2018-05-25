@@ -85,6 +85,5 @@
            idx)))
      (map-indexed vector homes))))
 
-(defn double-click [state location ev]
-  (when-let [home (find-home @state location)]
-    (move-card state location [:table :homes home])))
+(defn check-complete [{{homes :homes} :table}]
+  (every? #(-> % count (= 13)) homes))

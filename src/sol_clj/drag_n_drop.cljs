@@ -1,6 +1,7 @@
 (ns sol-clj.drag-n-drop
   (:require [cljs.reader :as reader]
-            [sol-clj.card :as c]))
+            [sol-clj.card :as c]
+            [sol-clj.modals :as modals]))
 
 (defn get-drag-data [ev]
   (-> ev .-dataTransfer
@@ -32,7 +33,6 @@
        500))))
 
 (defn drop-check [state location ev]
-  (.log js/console ev)
   (when (c/card-drop-allow
          @state
          (-> ev get-drag-data :location)
@@ -54,4 +54,5 @@
   (.preventDefault ev)
   (-> ev ev-elem .-classList (.remove "drag-over"))
   (let [{cloc :location} (get-drag-data ev)]
-    (c/move-card state cloc location)))
+    (c/move-card state cloc location)
+    (modals/game-complete-open state)))

@@ -6,9 +6,9 @@
    :columns [[] [] [] [] [] [] []]})
 
 (defn create-state []
-  (r/atom {:deck []
-           :shown []
-           :table (create-table)}))
+  {:deck []
+   :shown []
+   :table (create-table)})
 
 (defn create-deck []
   (range 1 (inc (* 13 4))))
@@ -58,3 +58,7 @@
                                                   create-deck)))
           (swapfn [s] (-> s shuffle deal show-top))]
     (swap! state swapfn)))
+
+(defn new-game [state]
+  (reset! state (create-state))
+  (init state))

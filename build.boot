@@ -5,7 +5,8 @@
    [pandeiro/boot-http "0.8.3"]
    [deraen/boot-sass"0.3.1"]
    [reagent "0.8.0"]
-   [crisptrutski/boot-cljs-test "0.3.5-SNAPSHOT"] ]
+   [crisptrutski/boot-cljs-test "0.3.5-SNAPSHOT"]
+   [lightscale/recomps "0.0.1-SNAPSHOT"]]
  :source-paths #{"src"}
  :asset-paths #{"assets"})
 

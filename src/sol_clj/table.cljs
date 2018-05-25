@@ -1,7 +1,9 @@
 (ns sol-clj.table
   (:require [reagent.core :as r]
             [sol-clj.components :as c]
-            [sol-clj.deck :as d]))
+            [sol-clj.deck :as d]
+            [sol-clj.modals :as modals]
+            [lightscale.recomps.modal :as m]))
 
 (defn columns [state columns]
   [:div.columns
@@ -20,6 +22,9 @@
     [:div
      [:div.top
       [d/deck state]
-      [:div.card-spacer]
+      [:div.card-spacer
+       [:button {:on-click #(m/open modals/confirm-restart
+                                    {:state state})}
+        "New game"]]
       [homes state homs]]
      [columns state cols]]))
