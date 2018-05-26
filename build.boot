@@ -29,5 +29,11 @@
    (speak)
    (cljs :optimizations :advanced)
    (sass :output-style :compressed :source-map false)
-   (serve :port 8081 :dir "target")
+   (target :dir #{"target"})))
+
+(deftask node_prod []
+  (merge-env! :source-paths #{"node_src" "src"})
+  (comp
+   (speak)
+   (cljs)
    (target :dir #{"target"})))
