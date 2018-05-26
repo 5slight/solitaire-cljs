@@ -16,7 +16,7 @@
 
 (defn game-complete-open [state]
   (when (c/check-complete @state)
-    (m/open game-complete)))
+    (m/open game-complete {:state state})))
 
 (def confirm-restart
   (m/confirm {:question "Are you sure you want to restart the game?"
