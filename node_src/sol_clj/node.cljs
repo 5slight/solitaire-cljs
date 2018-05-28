@@ -14,6 +14,7 @@
 (defn page [state]
   [:html
    [:head
+    [:meta {:charset "UTF-8"}]
     [:title "Solitaire"]
     [:link {:rel "stylesheet" :type "text/css" :href "css/main.css"}]]
    [:body
