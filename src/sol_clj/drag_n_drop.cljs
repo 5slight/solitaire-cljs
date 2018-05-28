@@ -17,6 +17,7 @@
        js/window
        #(set! (-> target .-style .-opacity) "0")))
     (set! (-> ev .-dataTransfer .-dropEffect) "move")
+    (-> ev .-dataTransfer (.setData "text/plain" (str value)))
     (reset! drag-data
             {:value value
              :location location})))
