@@ -3,10 +3,9 @@
             [sol-clj.card :as c]
             [sol-clj.modals :as modals]))
 
-(defn get-drag-data [ev]
-  (-> ev .-dataTransfer
-      (.getData "application/edn")
-      reader/read-string))
+(def drag-data (atom nil))
+
+(defn- get-drag-data [] @drag-data)
 
 (defn- targ-match? [ev] (= (.-target ev) (.-currentTarget ev)))
 (defn- ev-elem [ev] (.-currentTarget ev))
@@ -18,11 +17,9 @@
        js/window
        #(set! (-> target .-style .-opacity) "0")))
     (set! (-> ev .-dataTransfer .-dropEffect) "move")
-    (-> ev .-dataTransfer
-        (.setData
-         "application/edn"
-         (pr-str {:value value
-                  :location location})))))
+    (reset! drag-data
+            {:value value
+             :location location})))
 
 (defn drag-end [ev]
   (when (targ-match? ev)
@@ -35,14 +32,14 @@
 (defn drop-check [state location ev]
   (when (c/card-drop-allow
          @state
-         (-> ev get-drag-data :location)
+         (:location (get-drag-data))
          location)
     (.preventDefault ev)))
 
 (defn drag-enter [state location ev]
   (when  (c/card-drop-allow
           @state
-          (-> ev get-drag-data :location)
+          (:location (get-drag-data))
           location)
     (.preventDefault ev)
     (-> ev ev-elem .-classList (.add "drag-over"))))
@@ -53,6 +50,6 @@
 (defn on-drop [state location ev]
   (.preventDefault ev)
   (-> ev ev-elem .-classList (.remove "drag-over"))
-  (let [{cloc :location} (get-drag-data ev)]
+  (let [{cloc :location} (get-drag-data)]
     (c/move-card state cloc location)
     (modals/game-complete-open state)))
