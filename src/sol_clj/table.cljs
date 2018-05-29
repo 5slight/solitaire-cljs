@@ -25,6 +25,8 @@
       [:div.card-spacer
        [:button {:on-click #(m/open modals/confirm-restart
                                     {:state state})}
-        "New game"]]
+        "New game"]
+       [:button "Un"]
+       [:button "Re"]]
       [homes state homs]]
      [columns state cols]]))
