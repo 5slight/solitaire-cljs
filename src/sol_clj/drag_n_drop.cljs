@@ -1,7 +1,8 @@
 (ns sol-clj.drag-n-drop
   (:require [cljs.reader :as reader]
             [sol-clj.card :as c]
-            [sol-clj.modals :as modals]))
+            [sol-clj.modals :as modals]
+            [sol-clj.history :as hist]))
 
 (def drag-data (atom nil))
 
