@@ -1,30 +1,6 @@
 @import "lightscale/recomps/modal";
-
-@mixin aspect-ratio($width, $height) {
-  position: relative;
-  &:before {
-    display: block;
-    content: "";
-    width: 100%;
-    padding-top: ($height / $width) * 100%;
-  }
-  > .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-}
-
-@mixin user-select($val) {
-  -webkit-user-select: $val;  /* Chrome all / Safari all */
-  -moz-user-select: $val;     /* Firefox all */
-  -ms-user-select: $val;      /* IE 10+ */
-  user-select: $val;          /* Likely future */
-}
-
-$card-border-radius: 0.35em;
+@import "mixins";
+@import "variables";
 
 * {
   padding:0;
@@ -32,7 +8,7 @@ $card-border-radius: 0.35em;
 }
 
 body {
-  background-color: #88B;
+  background-color: $color-background;
   @include user-select(none);
 }
 
@@ -55,8 +31,8 @@ body {
 
 .card-container, .card-spacer {
 
-  margin:1.8% 2.5% 0;
-  width:9.28%;
+  margin:1.8% $card-margin 0;
+  width: (100% - (($card-margin * 2) * 7)) / 7;
   float:left;
   position:relative;
 
@@ -67,20 +43,20 @@ body {
   }
 
   .front {
-    background-color:white;
+    background-color: $color-card-front-background;
   }
 
   .back {
-    background-color: #f77;
+    background-color: $color-card-back;
   }
 
   .empty {
-    background-color:rgba(254,254,254,0.3);
+    background-color: $color-empty;
   }
 
   .card {
     @include aspect-ratio(2.5, 3.5);
-    border: 1px solid black;
+    border: 1px solid $color-card-border;
     border-radius: $card-border-radius;
 
     .content {
@@ -103,14 +79,14 @@ body {
   }
 
   .red {
-    color:red;
+    color: $color-card-front-foreground-red;
   }
   .black {
-    color:black;
+    color: $color-card-front-foreground-black;
   }
 }
 .card-container.drag-over > .card-wrapper::before {
-  background-color: rgba(100, 200, 100, 0.65);
+  background-color: $color-container-overlay;
   display: block;
   position: absolute;
   width: 100%;
