@@ -50,9 +50,8 @@
      :on-drag-enter (partial dnd/drag-enter state location)
      :on-drag-over (partial dnd/drop-check state location)
      :on-drag-exit dnd/drag-exit}
-    (if (empty? @cards)
-      [space]
-      [card-container-loop state location 0 @cards])]))
+    [space]
+    [card-container-loop state location 0 @cards]]))
 
 (defn column [state cards idx]
   [card-container
