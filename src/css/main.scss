@@ -24,13 +24,16 @@
   user-select: $val;          /* Likely future */
 }
 
+$card-border-radius: 0.35em;
+
 * {
   padding:0;
   margin:0;
 }
 
 body {
-  background-color: #888;
+  background-color: #88B;
+  @include user-select(none);
 }
 
 .card[draggable] {
@@ -57,6 +60,12 @@ body {
   float:left;
   position:relative;
 
+  > .card-wrapper {
+    position: absolute;
+    width:100%;
+    top:0;
+  }
+
   .front {
     background-color:white;
   }
@@ -66,12 +75,13 @@ body {
   }
 
   .empty {
-    background-color:#CCC;
+    background-color:rgba(254,254,254,0.3);
   }
 
   .card {
     @include aspect-ratio(2.5, 3.5);
     border: 1px solid black;
+    border-radius: $card-border-radius;
 
     .content {
       h1 {
@@ -99,8 +109,8 @@ body {
     color:black;
   }
 }
-.card-container.drag-over::before {
-  background-color: rgba(100, 200, 100, 0.7);
+.card-container.drag-over > .card-wrapper::before {
+  background-color: rgba(100, 200, 100, 0.65);
   display: block;
   position: absolute;
   width: 100%;
@@ -109,4 +119,5 @@ body {
   content: "";
   top: 0;
   left: 0;
+  border-radius: $card-border-radius;
 }
